@@ -38,6 +38,15 @@ yarn dev
 bun run dev
 ```
 
+## Development
+
+ ```bash
+
+# lint&format
+npm run lintfix
+
+```
+
 ## Production
 
 Build the application for production:
