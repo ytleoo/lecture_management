@@ -7,4 +7,12 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/tailwind.css'],
   modules: ['@nuxtjs/tailwindcss'],
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    },
+  },
+  imports: {
+    dirs: ['composables', 'composables/*/index.{ts,js,mjs,mts}', 'composables/**'],
+  },
 });

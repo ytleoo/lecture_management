@@ -40,7 +40,7 @@ bun run dev
 
 ## Development
 
- ```bash
+```bash
 
 # lint&format
 npm run lintfix
