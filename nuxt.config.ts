@@ -3,8 +3,8 @@ export default defineNuxtConfig({
   ssr: false,
   devtools: { enabled: true },
   postcss: {
-    plugins: { tailwindcss: {} }
+    plugins: { tailwindcss: {} },
   },
   css: ['~/assets/css/tailwind.css'],
-  modules: ['@nuxtjs/tailwindcss']
-})
+  modules: ['@nuxtjs/tailwindcss'],
+});
