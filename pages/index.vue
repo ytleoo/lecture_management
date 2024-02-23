@@ -1,3 +1,3 @@
 <template>
-  <NuxtLink to="/test">テスト</NuxtLink>
+  <NuxtLink to="/posts">テスト</NuxtLink>
 </template>
