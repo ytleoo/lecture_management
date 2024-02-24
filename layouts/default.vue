@@ -1,3 +1,4 @@
+<script setup lang="ts"></script>
 <template>
   <header
     class="fixed z-10 flex h-12 w-full items-center justify-between border-b-4 border-cyan-500 bg-cyan-950 px-2"
