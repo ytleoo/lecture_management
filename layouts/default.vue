@@ -6,7 +6,7 @@
     <h1 class="font-bold text-white md:text-xl">講義管理システム</h1>
     <CommonHeaderMenu />
   </header>
-  <main class="h-hull w-full bg-slate-200">
+  <main class="h-hull min-h-screen w-full bg-slate-200">
     <slot />
   </main>
 </template>
