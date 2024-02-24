@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { useHead } from '#imports';
 import { useApi } from '~/composables/useApi';
+
+useHead({
+  title: '講義登録',
+});
 
 const { data: lectures } = await useApi('/v1/public/lectures');
 </script>
