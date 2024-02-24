@@ -1,6 +1,11 @@
 <template>
-  <header class="bg-slate-500">
-    <h1 class="font-bold text-xl">Header</h1>
+  <header
+    class="fixed z-10 flex h-12 w-full items-center justify-between border-b-4 border-cyan-500 bg-cyan-950 px-2"
+  >
+    <h1 class="text-xl font-bold text-white">講義管理システム</h1>
+    <CommonHeaderMenu />
   </header>
-  <slot />
+  <main class="bg-slate-200">
+    <slot />
+  </main>
 </template>
