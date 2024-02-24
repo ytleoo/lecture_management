@@ -9,8 +9,8 @@ useHead({
 const { data: lectures } = await useApi('/v1/public/lectures');
 </script>
 <template>
-  <div class="flex w-full flex-col items-center gap-2 pt-16">
-    <div class="flex flex-row justify-around gap-8 sm:flex-col">
+  <div class="flex w-full flex-col items-center gap-2 pt-20">
+    <div class="flex flex-col justify-around gap-8 md:flex-row">
       <div>
         <section class="h-52">
           <common-section-title>前期</common-section-title>
