@@ -1,10 +1,19 @@
 <script setup lang="ts">
+import { useApi } from '~/composables/useApi';
+
 const { data: lectures } = await useApi('/v1/public/lectures');
 </script>
 <template>
-  <section>
-    <ul>
-      <li v-for="lecture in lectures" :key="lecture.id">講義名：{{ lecture.name }}</li>
-    </ul>
-  </section>
+  <div class="flex w-full flex-col gap-2 items-center pt-16">
+    <div class="flex justify-around gap-8">
+      <section class="h-52">
+      </section>
+      <section class="h-52">
+      </section>
+    </div>
+    <section class="flex justify-around gap-8">
+      <lecture-list :lectures="lectures" />
+      <lecture-list :lectures="lectures" />
+    </section>
+  </div>
 </template>
