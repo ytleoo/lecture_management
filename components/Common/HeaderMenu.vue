@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { Bars3Icon, Cog8ToothIcon } from '@heroicons/vue/24/solid'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
+import { Bars3Icon, Cog8ToothIcon } from '@heroicons/vue/24/solid';
 </script>
 <template>
   <div class="w-56 text-right">
@@ -10,10 +10,7 @@ import { Bars3Icon, Cog8ToothIcon } from '@heroicons/vue/24/solid'
           class="inline-flex w-full justify-center rounded-md bg-white bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-white/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"
         >
           Menu
-          <Bars3Icon
-            class="-mr-1 ml-2 h-5 w-5"
-            aria-hidden="true"
-          />
+          <Bars3Icon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
         </MenuButton>
       </div>
 
@@ -46,9 +43,7 @@ import { Bars3Icon, Cog8ToothIcon } from '@heroicons/vue/24/solid'
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                 ]"
               >
-                <Cog8ToothIcon 
-                  class="mr-1 h-5 w-5"
-                  aria-hidden="true" />
+                <Cog8ToothIcon class="mr-1 h-5 w-5" aria-hidden="true" />
                 パスワード変更
               </button>
             </MenuItem>
