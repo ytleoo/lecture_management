@@ -6,7 +6,7 @@ useHead({
   title: '講義登録',
 });
 
-const { data: lectures } = await useApi('/v1/public/lectures');
+const { data: lectures } = await useApi('/api/v1/public/lectures');
 </script>
 <template>
   <div class="flex w-full flex-col items-center gap-2 pt-20">
