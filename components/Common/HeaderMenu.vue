@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useAuth } from '#imports';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import { Bars3Icon, Cog8ToothIcon } from '@heroicons/vue/24/solid';
+
+const { signOut } = useAuth();
 </script>
 <template>
   <div class="w-56 text-right">
@@ -28,6 +31,7 @@ import { Bars3Icon, Cog8ToothIcon } from '@heroicons/vue/24/solid';
           <div class="px-1 py-1">
             <MenuItem v-slot="{ active }">
               <button
+                @click="() => signOut({ callbackUrl: '/' })"
                 :class="[
                   active ? 'bg-cyan-500 text-white' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm',

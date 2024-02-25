@@ -5,7 +5,7 @@ import { ref } from 'vue';
 definePageMeta({
   auth: {
     unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/registration' ,
+    navigateAuthenticatedTo: '/registration',
   },
 });
 
@@ -18,7 +18,12 @@ const password = ref('');
   <div class="page-wrapper">
     <div class="wrapper-white">
       <h1 class="text-xl font-bold">ログイン</h1>
-      <form @submit.prevent="signIn({ email, password }, { external: true, callbackUrl: '/registration' })" class="mt-4">
+      <form
+        @submit.prevent="
+          signIn({ email, password }, { external: true, callbackUrl: '/registration' })
+        "
+        class="mt-4"
+      >
         <div class="my-4 flex w-full flex-col items-center">
           <label for="email" class="w-full px-4 text-left text-gray-500 md:w-5/6">email</label>
           <input
