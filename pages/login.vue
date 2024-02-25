@@ -11,6 +11,16 @@ definePageMeta({
 
 const { signIn } = useAuth();
 
+const handleSignIn = async(email: string, password: string) => {
+  // TODO: バリデーション
+  const { error } = await useApi('api/v1/auth/sign_in', {httpMethod: 'POST', params: {email: email, password: password}});
+  // TODO: エラーハンドリング
+  console.log(error.value?.data)
+  console.log(error.value?.statusCode)
+  if (error.value) return;
+  signIn({ email, password }, { external: true, callbackUrl: '/registration' })
+}
+
 const email = ref('');
 const password = ref('');
 </script>
@@ -19,9 +29,7 @@ const password = ref('');
     <div class="wrapper-white">
       <h1 class="text-xl font-bold">ログイン</h1>
       <form
-        @submit.prevent="
-          signIn({ email, password }, { external: true, callbackUrl: '/registration' })
-        "
+        @submit.prevent="handleSignIn(email, password)"
         class="mt-4"
       >
         <div class="my-4 flex w-full flex-col items-center">
@@ -50,7 +58,9 @@ const password = ref('');
           ログイン
         </button>
       </form>
-      <button class="text-sm text-gray-400 underline mt-3" @click="navigateTo('/signup')">ユーザー新規登録</button>
+      <button class="mt-3 text-sm text-gray-400 underline" @click="navigateTo('/signup')">
+        ユーザー新規登録
+      </button>
     </div>
   </div>
 </template>
