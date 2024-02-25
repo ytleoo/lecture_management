@@ -27,12 +27,7 @@ const handleError = () => clearError({ redirect: '/' });
   <main class="h-hull min-h-screen w-full bg-slate-200 pt-20">
     <div class="wrapper-white">
       <p class="text-gray-400">エラーが発生しました</p>
-      <button
-        @click="handleError"
-        class="button-white"
-      >
-        ホームに戻る
-      </button>
+      <button @click="handleError" class="button-white">ホームに戻る</button>
     </div>
   </main>
 </template>

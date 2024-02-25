@@ -7,6 +7,12 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/tailwind.css'],
   modules: ['@nuxt/devtools', '@nuxtjs/tailwindcss', '@sidebase/nuxt-auth'],
+  auth: {
+    globalAppMiddleware: true,
+    provider: {
+      type: 'local',
+    },
+  },
   runtimeConfig: {
     public: {
       baseURL: process.env.BASE_URL || 'http://localhost:3000',
