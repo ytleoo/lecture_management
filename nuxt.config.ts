@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     plugins: { tailwindcss: {} },
   },
   css: ['~/assets/css/tailwind.css'],
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxt/devtools', '@nuxtjs/tailwindcss', '@sidebase/nuxt-auth'],
   runtimeConfig: {
     public: {
       baseURL: process.env.BASE_URL || 'http://localhost:3000',
