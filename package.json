@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.4",
+    "@sidebase/nuxt-auth": "^0.6.7",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vue/eslint-config-prettier": "^9.0.0",
