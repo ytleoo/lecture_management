@@ -25,11 +25,11 @@ const handleError = () => clearError({ redirect: '/' });
     <CommonHeaderMenu />
   </header>
   <main class="h-hull min-h-screen w-full bg-slate-200 pt-20">
-    <div class="m-auto w-11/12 bg-white p-8 text-center md:w-3/5">
+    <div class="wrapper-white">
       <p class="text-gray-400">エラーが発生しました</p>
       <button
         @click="handleError"
-        class="mt-4 rounded border px-4 py-2 text-gray-400 hover:border-white hover:bg-cyan-500 hover:text-white"
+        class="button-white"
       >
         ホームに戻る
       </button>
