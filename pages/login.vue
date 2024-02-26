@@ -11,20 +11,19 @@ definePageMeta({
   },
 });
 
-
-const errorMessage= ref('');
+const errorMessage = ref('');
 const email = ref('');
 const password = ref('');
 
 const validationLogin = (email: string, password: string): boolean => {
   const formParser = z.object({
     email: z.string().email({ message: 'メールアドレスが不正です' }),
-    password: z.string().min(1, { message: 'パスワードを入力してください' }),
+    password: z.string().min(6, { message: 'パスワードを6文字以上で入力してください' }),
   });
   const parsed = formParser.safeParse({ email, password });
   if (!parsed.success) {
-    const errors = parsed.error.errors.map(error => error.message);
-    errorMessage.value = errors.join(', ')
+    const errors = parsed.error.errors.map((error) => error.message);
+    errorMessage.value = errors.join(', ');
     return false;
   }
   return true;
@@ -52,7 +51,12 @@ const handleSignIn = async (email: string, password: string) => {
   <div class="page-wrapper">
     <div class="wrapper-white">
       <h1 class="text-xl font-bold">ログイン</h1>
-      <p v-if="errorMessage" class="bg-red-100 text-red-600 border border-red-200 py-3 my-2 rounded-sm">{{ errorMessage }}</p>
+      <p
+        v-if="errorMessage"
+        class="my-2 rounded-sm border border-red-200 bg-red-100 py-3 text-red-600"
+      >
+        {{ errorMessage }}
+      </p>
       <form @submit.prevent="handleSignIn(email, password)" class="mt-4">
         <div class="my-4 flex w-full flex-col items-center">
           <label for="email" class="w-full px-4 text-left text-gray-500 md:w-5/6">email</label>

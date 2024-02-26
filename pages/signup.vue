@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useAuth, definePageMeta } from '#imports';
 import { ref } from 'vue';
+import z from 'zod';
+import { useApi } from '~/composables/useApi';
 
 definePageMeta({
   auth: {
@@ -11,23 +13,65 @@ definePageMeta({
 
 const { signIn } = useAuth();
 
+const errorMessage = ref('');
 const email = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
 
+const validationSignUp = (email: string, password: string, passwordConfirm: string): boolean => {
+  const formParser = z
+    .object({
+      email: z.string().email({ message: 'メールアドレスが不正です' }),
+      password: z.string().min(6, { message: 'パスワードを6文字以上で入力してください' }),
+      passwordConfirm: z
+        .string()
+        .min(6, { message: '確認用パスワードを6文字以上で入力してください' }),
+    })
+    .superRefine(({ password, passwordConfirm }, ctx) => {
+      if (password !== passwordConfirm) {
+        ctx.addIssue({
+          path: ['newPasswordConfirm'],
+          code: 'custom',
+          message: 'パスワードが一致しません',
+        });
+      }
+    });
+  const parsed = formParser.safeParse({ email, password, passwordConfirm });
+  if (!parsed.success) {
+    const errors = parsed.error.errors.map((error) => error.message);
+    errorMessage.value = errors[0];
+    return false;
+  }
+  return true;
+};
 
-const signUp = (email: string, password:string, passwordConfirm:string) => {
-  // signIn({ email, password }, { external: true, callbackUrl: '/registration' });
-}
+const signUp = async (email: string, password: string, passwordConfirm: string) => {
+  errorMessage.value = '';
+  const isValid = validationSignUp(email, password, passwordConfirm);
+  if (!isValid) return;
+
+  const { error } = await useApi('api/v1/auth', {
+    httpMethod: 'POST',
+    params: { email: email, password: password },
+  });
+  if (error.value) {
+    errorMessage.value = error.value?.data.errors[0];
+    return;
+  }
+  signIn({ email, password }, { external: true, callbackUrl: '/registration' });
+};
 </script>
 <template>
   <div class="page-wrapper">
     <div class="wrapper-white">
       <h1 class="text-xl font-bold">ユーザー登録</h1>
-      <form 
-        @submit.prevent="signUp(email, password, passwordConfirm)"
-        class="mt-4"
+      <p
+        v-if="errorMessage"
+        class="my-2 rounded-sm border border-red-200 bg-red-100 py-3 text-red-600"
       >
+        {{ errorMessage }}
+      </p>
+      <form @submit.prevent="signUp(email, password, passwordConfirm)" class="mt-4">
         <div class="my-4 flex w-full flex-col items-center">
           <label for="email" class="w-full px-4 text-left text-gray-500 md:w-5/6">email</label>
           <input
