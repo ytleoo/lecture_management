@@ -3,6 +3,7 @@ import { useAuth, definePageMeta } from '#imports';
 import { ref } from 'vue';
 import z from 'zod';
 import { useApi } from '~/composables/useApi';
+import { useValidation } from '~/composables/useValidation';
 
 definePageMeta({
   auth: {
@@ -13,11 +14,12 @@ definePageMeta({
 
 const { signIn } = useAuth();
 
-const errorMessage = ref('');
+const errorMessage = ref<string | undefined>(undefined);
 const email = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
 
+const { validateForm } = useValidation();
 const validationSignUp = (email: string, password: string, passwordConfirm: string): boolean => {
   const formParser = z
     .object({
@@ -36,19 +38,13 @@ const validationSignUp = (email: string, password: string, passwordConfirm: stri
         });
       }
     });
-  const parsed = formParser.safeParse({ email, password, passwordConfirm });
-  if (!parsed.success) {
-    const errors = parsed.error.errors.map((error) => error.message);
-    errorMessage.value = errors[0];
-    return false;
-  }
-  return true;
+  errorMessage.value = validateForm(formParser, { email, password, passwordConfirm });
 };
 
 const signUp = async (email: string, password: string, passwordConfirm: string) => {
   errorMessage.value = '';
-  const isValid = validationSignUp(email, password, passwordConfirm);
-  if (!isValid) return;
+  validationSignUp(email, password, passwordConfirm);
+  if (errorMessage.value) return;
 
   const { error } = await useApi('api/v1/auth', {
     httpMethod: 'POST',
@@ -65,7 +61,9 @@ const signUp = async (email: string, password: string, passwordConfirm: string) 
   <div class="page-wrapper">
     <div class="wrapper-white">
       <h1 class="text-xl font-bold">ユーザー登録</h1>
-      <CommonFlashMessage type="error" :isVisible=!!errorMessage>{{ errorMessage }}</CommonFlashMessage>
+      <CommonFlashMessage type="error" :isVisible="!!errorMessage">{{
+        errorMessage
+      }}</CommonFlashMessage>
       <form @submit.prevent="signUp(email, password, passwordConfirm)" class="mt-4">
         <div class="my-4 flex w-full flex-col items-center">
           <label for="email" class="w-full px-4 text-left text-gray-500 md:w-5/6">email</label>

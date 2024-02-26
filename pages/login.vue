@@ -3,6 +3,7 @@ import { useAuth, definePageMeta } from '#imports';
 import { ref } from 'vue';
 import z from 'zod';
 import { useApi } from '~/composables/useApi';
+import { useValidation } from '~/composables/useValidation';
 
 definePageMeta({
   auth: {
@@ -11,30 +12,25 @@ definePageMeta({
   },
 });
 
-const errorMessage = ref('');
+const errorMessage = ref<string | undefined>(undefined);
 const email = ref('');
 const password = ref('');
 
-const validationLogin = (email: string, password: string): boolean => {
+const { validateForm } = useValidation();
+const validationLogin = (email: string, password: string) => {
   const formParser = z.object({
     email: z.string().email({ message: 'メールアドレスが不正です' }),
     password: z.string().min(6, { message: 'パスワードを6文字以上で入力してください' }),
   });
-  const parsed = formParser.safeParse({ email, password });
-  if (!parsed.success) {
-    const errors = parsed.error.errors.map((error) => error.message);
-    errorMessage.value = errors[0];
-    return false;
-  }
-  return true;
+  errorMessage.value = validateForm(formParser, { email, password });
 };
 
 const { signIn } = useAuth();
 
 const handleSignIn = async (email: string, password: string) => {
   errorMessage.value = '';
-  const isValid = validationLogin(email, password);
-  if (!isValid) return;
+  validationLogin(email, password);
+  if (errorMessage.value) return;
 
   const { error } = await useApi('api/v1/auth/sign_in', {
     httpMethod: 'POST',
@@ -51,7 +47,9 @@ const handleSignIn = async (email: string, password: string) => {
   <div class="page-wrapper">
     <div class="wrapper-white">
       <h1 class="text-xl font-bold">ログイン</h1>
-      <CommonFlashMessage type="error" :isVisible=!!errorMessage>{{ errorMessage }}</CommonFlashMessage>
+      <CommonFlashMessage type="error" :isVisible="!!errorMessage">{{
+        errorMessage
+      }}</CommonFlashMessage>
       <form @submit.prevent="handleSignIn(email, password)" class="mt-4">
         <div class="my-4 flex w-full flex-col items-center">
           <label for="email" class="w-full px-4 text-left text-gray-500 md:w-5/6">email</label>
