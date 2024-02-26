@@ -65,12 +65,7 @@ const signUp = async (email: string, password: string, passwordConfirm: string) 
   <div class="page-wrapper">
     <div class="wrapper-white">
       <h1 class="text-xl font-bold">ユーザー登録</h1>
-      <p
-        v-if="errorMessage"
-        class="my-2 rounded-sm border border-red-200 bg-red-100 py-3 text-red-600"
-      >
-        {{ errorMessage }}
-      </p>
+      <CommonFlashMessage type="error" :isVisible=!!errorMessage>{{ errorMessage }}</CommonFlashMessage>
       <form @submit.prevent="signUp(email, password, passwordConfirm)" class="mt-4">
         <div class="my-4 flex w-full flex-col items-center">
           <label for="email" class="w-full px-4 text-left text-gray-500 md:w-5/6">email</label>

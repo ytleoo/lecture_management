@@ -23,7 +23,7 @@ const validationLogin = (email: string, password: string): boolean => {
   const parsed = formParser.safeParse({ email, password });
   if (!parsed.success) {
     const errors = parsed.error.errors.map((error) => error.message);
-    errorMessage.value = errors.join(', ');
+    errorMessage.value = errors[0];
     return false;
   }
   return true;
@@ -51,12 +51,7 @@ const handleSignIn = async (email: string, password: string) => {
   <div class="page-wrapper">
     <div class="wrapper-white">
       <h1 class="text-xl font-bold">ログイン</h1>
-      <p
-        v-if="errorMessage"
-        class="my-2 rounded-sm border border-red-200 bg-red-100 py-3 text-red-600"
-      >
-        {{ errorMessage }}
-      </p>
+      <CommonFlashMessage type="error" :isVisible=!!errorMessage>{{ errorMessage }}</CommonFlashMessage>
       <form @submit.prevent="handleSignIn(email, password)" class="mt-4">
         <div class="my-4 flex w-full flex-col items-center">
           <label for="email" class="w-full px-4 text-left text-gray-500 md:w-5/6">email</label>
