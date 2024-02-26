@@ -11,40 +11,48 @@ definePageMeta({
   },
 });
 
+
+const errorMessage= ref('');
+const email = ref('');
+const password = ref('');
+
 const validationLogin = (email: string, password: string): boolean => {
   const formParser = z.object({
     email: z.string().email({ message: 'メールアドレスが不正です' }),
     password: z.string().min(1, { message: 'パスワードを入力してください' }),
   });
   const parsed = formParser.safeParse({ email, password });
-  if (parsed.error) return false;
+  if (!parsed.success) {
+    const errors = parsed.error.errors.map(error => error.message);
+    errorMessage.value = errors.join(', ')
+    return false;
+  }
   return true;
 };
 
 const { signIn } = useAuth();
 
 const handleSignIn = async (email: string, password: string) => {
+  errorMessage.value = '';
   const isValid = validationLogin(email, password);
-  // バリデーションを表示
   if (!isValid) return;
+
   const { error } = await useApi('api/v1/auth/sign_in', {
     httpMethod: 'POST',
     params: { email: email, password: password },
   });
-  // TODO: エラーハンドリング
-  console.log(error.value?.data);
-  console.log(error.value?.statusCode);
-  if (error.value) return;
+  if (error.value) {
+    errorMessage.value = error.value?.data.errors[0];
+    return;
+  }
   signIn({ email, password }, { external: true, callbackUrl: '/registration' });
 };
-
-const email = ref('');
-const password = ref('');
 </script>
 <template>
   <div class="page-wrapper">
     <div class="wrapper-white">
       <h1 class="text-xl font-bold">ログイン</h1>
+      <p v-if="errorMessage" class="bg-red-100 text-red-600 border border-red-200 py-3 my-2 rounded-sm">{{ errorMessage }}</p>
       <form @submit.prevent="handleSignIn(email, password)" class="mt-4">
         <div class="my-4 flex w-full flex-col items-center">
           <label for="email" class="w-full px-4 text-left text-gray-500 md:w-5/6">email</label>
