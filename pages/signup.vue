@@ -51,7 +51,7 @@ const signUp = async (email: string, password: string, passwordConfirm: string) 
     params: { email: email, password: password },
   });
   if (error.value) {
-    errorMessage.value = error.value?.data.errors[0];
+    errorMessage.value = error.value.data.errors.full_messages[0];
     return;
   }
   signIn({ email, password }, { external: true, callbackUrl: '/registration' });
