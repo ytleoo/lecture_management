@@ -40,7 +40,7 @@ const handleSignIn = async (email: string, password: string) => {
 
   if (error.value) {
     const errors = useApiError(error)
-    errorMessage.value = errors[0];
+    errorMessage.value = errors?.[0] ?? 'ログイン失敗';
     return;
   }
   signIn({ email, password }, { external: true, callbackUrl: '/registration' });

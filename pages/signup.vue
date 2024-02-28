@@ -53,7 +53,7 @@ const signUp = async (email: string, password: string, passwordConfirm: string) 
   });
   if (error.value) {
     const errors = useApiError(error)
-    errorMessage.value = errors.full_messages[0];
+    errorMessage.value = errors?.full_messages?.[0] ?? '登録失敗';
     return;
   }
   signIn({ email, password }, { external: true, callbackUrl: '/registration' });
