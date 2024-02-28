@@ -39,8 +39,8 @@ const handleSignIn = async (email: string, password: string) => {
   });
 
   if (error.value) {
-    useApiError(error)
-    errorMessage.value = error.value?.data?.errors[0];
+    const errors = useApiError(error)
+    errorMessage.value = errors[0];
     return;
   }
   signIn({ email, password }, { external: true, callbackUrl: '/registration' });
