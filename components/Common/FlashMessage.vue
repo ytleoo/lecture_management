@@ -12,12 +12,12 @@ const props = defineProps<Props>();
   <Transition>
     <p
       v-if="props.isVisible"
-      class="my-2 flex items-center justify-center rounded-sm border"
+      class="my-2 flex items-start justify-center rounded-sm border p-1 gap-1"
       :class="{ 'border-red-200 bg-red-100 py-3 text-red-600': props.type === 'error' }"
     >
       <ExclamationCircleIcon
         v-if="props.type === 'error'"
-        class="mr-1 h-5 w-5"
+        class="mt-[2px] h-5 w-5 shrink-0"
         aria-hidden="true"
       /><slot />
     </p>
