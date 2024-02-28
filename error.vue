@@ -22,7 +22,7 @@ const handleError = () => clearError({ redirect: '/' });
     <div class="wrapper-white">
       <h2 class="text-xl font-bold mb-4 text-cyan-950">{{statusCode}} {{ statusMessage }}</h2>
       <p class="text-gray-400">{{ displayMessage }}</p>
-      <button @click="handleError" class="button-white">ホームに戻る</button>
+      <button @click="handleError" class="button-base">ホームに戻る</button>
     </div>
   </main>
 </template>

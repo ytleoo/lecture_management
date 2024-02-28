@@ -56,6 +56,7 @@ const handleSignIn = async (email: string, password: string) => {
       <form @submit.prevent="handleSignIn(email, password)" class="mt-4">
         <CommonFormInput type="text" id="email" placeholder="email@email" label="メールアドレス" v-model:modelValue="email" />
         <CommonFormInput type="text" id="password" placeholder="password" label="パスワード" v-model:modelValue="password" />
+        <button type="submit" class="button-base w-28 bg-cyan-500 text-white hover:bg-cyan-400">
           ログイン
         </button>
       </form>
