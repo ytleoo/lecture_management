@@ -1,19 +1,13 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
-import { clearError } from '#imports';
+import { clearError, useError } from '#imports';
+import { ref } from 'vue';
 
-type Error = {
-  url: string;
-  statusCode: number;
-  statusMessage: string;
-  message: string;
-  description: string;
-  data: any;
-};
-interface Props {
-  error: Error;
+const error = useError();
+const {statusCode, statusMessage, message } = error.value;
+const displayMessage = ref<string>(message);
+if (statusCode === 404) {
+  displayMessage.value = 'ページが見つかりません。'
 }
-defineProps<Props>();
 
 const handleError = () => clearError({ redirect: '/' });
 </script>
@@ -26,7 +20,8 @@ const handleError = () => clearError({ redirect: '/' });
   </header>
   <main class="h-hull min-h-screen w-full bg-slate-200 pt-20">
     <div class="wrapper-white">
-      <p class="text-gray-400">エラーが発生しました</p>
+      <h2 class="text-xl font-bold mb-4 text-cyan-950">{{statusCode}} {{ statusMessage }}</h2>
+      <p class="text-gray-400">{{ displayMessage }}</p>
       <button @click="handleError" class="button-white">ホームに戻る</button>
     </div>
   </main>

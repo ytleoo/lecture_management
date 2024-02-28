@@ -3,6 +3,7 @@ import { useAuth, definePageMeta } from '#imports';
 import { ref } from 'vue';
 import z from 'zod';
 import { useApi } from '~/composables/useApi';
+import { useApiError } from '~/composables/useApiError';
 import { useValidation } from '~/composables/useValidation';
 
 definePageMeta({
@@ -36,8 +37,10 @@ const handleSignIn = async (email: string, password: string) => {
     httpMethod: 'POST',
     params: { email: email, password: password },
   });
+
   if (error.value) {
-    errorMessage.value = error.value?.data.errors[0];
+    useApiError(error)
+    errorMessage.value = error.value?.data?.errors[0];
     return;
   }
   signIn({ email, password }, { external: true, callbackUrl: '/registration' });
