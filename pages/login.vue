@@ -30,6 +30,12 @@ const validationLogin = (email: string, password: string) => {
 
 const { signIn } = useAuth();
 
+const onResponse = (data) => {
+  console.log(data.response.headers.get('access-token'))
+  console.log(data.response.headers.get('client'))
+  console.log(data.response.headers.get('uid'))
+}
+
 const handleSignIn = async (email: string, password: string) => {
   errorMessage.value = '';
   validationLogin(email, password);
@@ -38,6 +44,7 @@ const handleSignIn = async (email: string, password: string) => {
   const { error } = await useApi('api/v1/auth/sign_in', {
     httpMethod: 'POST',
     params: { email: email, password: password },
+    onResponseFunc: onResponse
   });
 
   if (error.value) {
@@ -45,7 +52,8 @@ const handleSignIn = async (email: string, password: string) => {
     errorMessage.value = errors?.[0] ?? 'ログイン失敗';
     return;
   }
-  signIn({ email, password }, { external: true, callbackUrl: '/registration' });
+
+  // signIn({ email, password }, { external: true, callbackUrl: '/registration' });
 };
 </script>
 <template>
