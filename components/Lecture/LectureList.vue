@@ -53,7 +53,7 @@ const addLecture = async (lectureId: number) => {
               lecture.name
             }}
           </div>
-          <button class="button-base m-0" @click="addLecture(lecture.id)">登録</button>
+          <button class="button-base m-0 bg-cyan-500 hover:bg-cyan-400 text-white" @click="addLecture(lecture.id)">登録</button>
         </DisclosureButton>
         <DisclosurePanel class="mt-2 w-52 text-wrap border-t pt-2 text-sm text-gray-500"
           >詳細：{{ lecture.description }}</DisclosurePanel
