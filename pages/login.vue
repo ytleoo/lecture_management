@@ -17,14 +17,11 @@ const errorMessage = ref<string | undefined>(undefined);
 const email = ref('');
 const password = ref('');
 
-const { validateForm } = useValidation();
+const { validateForm, validationRules } = useValidation();
 const validationLogin = (email: string, password: string) => {
   const formParser = z.object({
-    email: z.string().email({ message: 'メールアドレスが不正です' }),
-    password: z
-      .string()
-      .min(6, { message: 'パスワードを6文字以上で入力してください' })
-      .regex(/^[a-zA-Z0-9]+$/, { message: 'パスワードは半角英数字で入力してください' }),
+    email: validationRules.email,
+    password: validationRules.password,
   });
   errorMessage.value = validateForm(formParser, { email, password });
 };

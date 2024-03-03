@@ -10,18 +10,12 @@ const errorMessage = ref<string | undefined>(undefined);
 const password = ref('');
 const passwordConfirm = ref('');
 
-const { validateForm } = useValidation();
+const { validateForm, validationRules } = useValidation();
 const validationPassword = (password: string, passwordConfirm: string) => {
   const formParser = z
     .object({
-      password: z
-        .string()
-        .min(6, { message: 'パスワードを6文字以上で入力してください' })
-        .regex(/^[a-zA-Z0-9]+$/, { message: 'パスワードは半角英数字で入力してください' }),
-      passwordConfirm: z
-        .string()
-        .min(6, { message: '確認用パスワードを6文字以上で入力してください' })
-        .regex(/^[a-zA-Z0-9]+$/, { message: '確認用パスワードは半角英数字で入力してください' }),
+      password: validationRules.password,
+      passwordConfirm: validationRules.passwordConfirm,
     })
     .superRefine(({ password, passwordConfirm }, ctx) => {
       if (password !== passwordConfirm) {
