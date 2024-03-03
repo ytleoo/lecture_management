@@ -7,6 +7,7 @@ useHead({
 });
 
 const { data: lectures } = await useApi('/api/v1/public/lectures');
+
 </script>
 <template>
   <div class="page-wrapper">
@@ -15,13 +16,13 @@ const { data: lectures } = await useApi('/api/v1/public/lectures');
         <section class="h-52">
           <common-section-title>前期</common-section-title>
         </section>
-        <lecture-list :lectures="lectures" />
+        <lecture-list :lectures="lectures.first_term" />
       </div>
       <div>
         <section class="h-52">
           <common-section-title>後期</common-section-title>
         </section>
-        <lecture-list :lectures="lectures" />
+        <lecture-list :lectures="lectures.second_term" />
       </div>
     </div>
   </div>
