@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { navigateTo } from '#app';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import z from 'zod';
 import { useApi } from '~/composables/useApi';
 import { useApiError } from '~/composables/useApiError';
@@ -9,6 +9,7 @@ import { useValidation } from '~/composables/useValidation';
 const errorMessage = ref<string | undefined>(undefined);
 const password = ref('');
 const passwordConfirm = ref('');
+const isDisabled = computed(() => !password.value || !passwordConfirm.value);
 
 const { validateForm, validationRules } = useValidation();
 const validationPassword = (password: string, passwordConfirm: string) => {
@@ -69,9 +70,7 @@ const resetPassword = async (password: string, passwordConfirm: string) => {
           label="パスワード再入力"
           v-model:modelValue="passwordConfirm"
         />
-        <button type="submit" class="button-base w-28 bg-cyan-500 text-white hover:bg-cyan-400">
-          変更
-        </button>
+        <CommonFormButton :is-disabled="isDisabled">変更</CommonFormButton>
       </form>
     </div>
   </div>

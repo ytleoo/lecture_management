@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuth, definePageMeta } from '#imports';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import z from 'zod';
 import { usePostAuth } from '~/composables/usePostAuth';
 import { useApiError } from '~/composables/useApiError';
@@ -19,6 +19,7 @@ const errorMessage = ref<string | undefined>(undefined);
 const email = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
+const isDisabled = computed(() => !password.value || !passwordConfirm.value || !email.value);
 
 const { validateForm, validationRules } = useValidation();
 const validationSignUp = (email: string, password: string, passwordConfirm: string) => {
@@ -85,9 +86,7 @@ const signUp = async (email: string, password: string, passwordConfirm: string) 
           label="パスワード再入力"
           v-model:modelValue="passwordConfirm"
         />
-        <button type="submit" class="button-base w-28 bg-cyan-500 text-white hover:bg-cyan-400">
-          登録
-        </button>
+        <CommonFormButton :is-disabled="isDisabled">登録</CommonFormButton>
       </form>
     </div>
   </div>
