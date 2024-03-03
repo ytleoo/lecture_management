@@ -70,9 +70,27 @@ const signUp = async (email: string, password: string, passwordConfirm: string) 
         errorMessage
       }}</CommonFlashMessage>
       <form @submit.prevent="signUp(email, password, passwordConfirm)" class="mt-4">
-        <CommonFormInput type="text" id="email" placeholder="email@email" label="メールアドレス" v-model:modelValue="email" />
-        <CommonFormInput type="text" id="password" placeholder="password" label="パスワード" v-model:modelValue="password" />
-        <CommonFormInput type="text" id="passwordConfirm" placeholder="password" label="パスワード再入力" v-model:modelValue="passwordConfirm" />
+        <CommonFormInput
+          type="text"
+          id="email"
+          placeholder="email@email"
+          label="メールアドレス"
+          v-model:modelValue="email"
+        />
+        <CommonFormInput
+          type="text"
+          id="password"
+          placeholder="password"
+          label="パスワード"
+          v-model:modelValue="password"
+        />
+        <CommonFormInput
+          type="text"
+          id="passwordConfirm"
+          placeholder="password"
+          label="パスワード再入力"
+          v-model:modelValue="passwordConfirm"
+        />
         <button type="submit" class="button-base w-28 bg-cyan-500 text-white hover:bg-cyan-400">
           登録
         </button>

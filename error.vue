@@ -3,10 +3,10 @@ import { clearError, useError } from '#imports';
 import { ref } from 'vue';
 
 const error = useError();
-const {statusCode, statusMessage, message } = error.value;
+const { statusCode, statusMessage, message } = error.value;
 const displayMessage = ref<string>(message);
 if (statusCode === 404) {
-  displayMessage.value = 'ページが見つかりません。'
+  displayMessage.value = 'ページが見つかりません。';
 }
 
 const handleError = () => clearError({ redirect: '/' });
@@ -20,7 +20,7 @@ const handleError = () => clearError({ redirect: '/' });
   </header>
   <main class="h-hull min-h-screen w-full bg-slate-200 pt-20">
     <div class="wrapper-white">
-      <h2 class="text-xl font-bold mb-4 text-cyan-950">{{statusCode}} {{ statusMessage }}</h2>
+      <h2 class="mb-4 text-xl font-bold text-cyan-950">{{ statusCode }} {{ statusMessage }}</h2>
       <p class="text-gray-400">{{ displayMessage }}</p>
       <button @click="handleError" class="button-base">ホームに戻る</button>
     </div>

@@ -5,7 +5,6 @@ import { useApi } from '~/composables/useApi';
 import { useApiError } from '~/composables/useApiError';
 import { useValidation } from '~/composables/useValidation';
 
-
 const errorMessage = ref<string | undefined>(undefined);
 const password = ref('');
 const passwordConfirm = ref('');
@@ -45,12 +44,12 @@ const resetPassword = async (password: string, passwordConfirm: string) => {
     params: { password: password, password_confirmation: passwordConfirm },
   });
   if (error.value) {
-    const errors = useApiError(error)
+    const errors = useApiError(error);
     errorMessage.value = errors?.full_messages?.[0] ?? '登録失敗';
     return;
   }
 
-  alert('変更しました')
+  alert('変更しました');
 };
 </script>
 <template>
@@ -61,8 +60,20 @@ const resetPassword = async (password: string, passwordConfirm: string) => {
         errorMessage
       }}</CommonFlashMessage>
       <form @submit.prevent="resetPassword(password, passwordConfirm)" class="mt-4">
-        <CommonFormInput type="text" id="password" placeholder="password" label="新しいパスワード" v-model:modelValue="password" />
-        <CommonFormInput type="text" id="passwordConfirm" placeholder="password" label="パスワード再入力" v-model:modelValue="passwordConfirm" />
+        <CommonFormInput
+          type="text"
+          id="password"
+          placeholder="password"
+          label="新しいパスワード"
+          v-model:modelValue="password"
+        />
+        <CommonFormInput
+          type="text"
+          id="passwordConfirm"
+          placeholder="password"
+          label="パスワード再入力"
+          v-model:modelValue="passwordConfirm"
+        />
         <button type="submit" class="button-base w-28 bg-cyan-500 text-white hover:bg-cyan-400">
           変更
         </button>
