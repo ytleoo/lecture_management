@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { navigateTo } from '#app';
 import { ref } from 'vue';
 import z from 'zod';
 import { useApi } from '~/composables/useApi';
@@ -49,7 +50,7 @@ const resetPassword = async (password: string, passwordConfirm: string) => {
     return;
   }
 
-  alert('変更しました');
+  await navigateTo('/');
 };
 </script>
 <template>
