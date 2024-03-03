@@ -37,6 +37,7 @@ export const useApi = (path: string, { httpMethod = 'GET', params, onResponseFun
       Object.assign(options, { method: 'GET', ...(params ? { query: { ...params } } : {}) });
   }
 
+
   // ログイン/サインアップは別関数にする
   if (onResponseFunc) {
     Object.assign(options, {
@@ -45,6 +46,8 @@ export const useApi = (path: string, { httpMethod = 'GET', params, onResponseFun
       }
     });
   }
+
+  Object.assign(options, {timeout: 3000})
 
   return useFetch(path, options);
 };
