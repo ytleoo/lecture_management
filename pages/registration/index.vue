@@ -7,8 +7,8 @@ useHead({
 });
 
 const { data: lectures } = await useApi('/api/v1/public/lectures');
-const { data: registrations, refresh: refreshRegistrations } = await useApi('/api/v1/registrations');
-
+const { data: registrations, refresh: refreshRegistrations } =
+  await useApi('/api/v1/registrations');
 </script>
 <template>
   <div class="page-wrapper">
@@ -16,16 +16,28 @@ const { data: registrations, refresh: refreshRegistrations } = await useApi('/ap
       <div>
         <section class="h-80">
           <common-section-title>前期</common-section-title>
-          <registration-list :registrations="registrations.first_term" @update-registration="refreshRegistrations()" />
+          <registration-list
+            :registrations="registrations.first_term"
+            @update-registration="refreshRegistrations()"
+          />
         </section>
-        <lecture-list :lectures="lectures.first_term" />
+        <lecture-list
+          :lectures="lectures.first_term"
+          @update-registration="refreshRegistrations()"
+        />
       </div>
       <div>
         <section class="h-80">
           <common-section-title>後期</common-section-title>
-          <registration-list :registrations="registrations.second_term" @update-registration="refreshRegistrations()" />
+          <registration-list
+            :registrations="registrations.second_term"
+            @update-registration="refreshRegistrations()"
+          />
         </section>
-        <lecture-list :lectures="lectures.second_term" />
+        <lecture-list
+          :lectures="lectures.second_term"
+          @update-registration="refreshRegistrations()"
+        />
       </div>
     </div>
   </div>
