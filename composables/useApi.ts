@@ -14,12 +14,11 @@ type Params<T extends string | number> = {
 type Options = {
   httpMethod?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
   params?: Params<string | number>;
-  onResponseFunc?: void;
   baseURL?: string;
 };
 
 // header付与もする
-export const useApi = (path: string, { httpMethod = 'GET', params, onResponseFunc }: Options = {}) => {
+export const useApi = (path: string, { httpMethod = 'GET', params }: Options = {}) => {
   const config = useRuntimeConfig();
   const options: Options = { baseURL: config.public.baseURL };
   switch (httpMethod) {
@@ -37,17 +36,7 @@ export const useApi = (path: string, { httpMethod = 'GET', params, onResponseFun
       Object.assign(options, { method: 'GET', ...(params ? { query: { ...params } } : {}) });
   }
 
-
-  // ログイン/サインアップは別関数にする
-  if (onResponseFunc) {
-    Object.assign(options, {
-      onResponse(context) {
-        onResponseFunc(context)
-      }
-    });
-  }
-
-  Object.assign(options, {timeout: 3000})
+  Object.assign(options, { timeout: 3000 });
 
   return useFetch(path, options);
 };

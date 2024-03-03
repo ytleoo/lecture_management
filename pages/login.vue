@@ -2,7 +2,7 @@
 import { useAuth, definePageMeta } from '#imports';
 import { ref } from 'vue';
 import z from 'zod';
-import { useApi } from '~/composables/useApi';
+import { usePostAuth } from '~/composables/usePostAuth';
 import { useApiError } from '~/composables/useApiError';
 import { useValidation } from '~/composables/useValidation';
 
@@ -21,7 +21,8 @@ const { validateForm } = useValidation();
 const validationLogin = (email: string, password: string) => {
   const formParser = z.object({
     email: z.string().email({ message: 'メールアドレスが不正です' }),
-    password: z.string()
+    password: z
+      .string()
       .min(6, { message: 'パスワードを6文字以上で入力してください' })
       .regex(/^[a-zA-Z0-9]+$/, { message: 'パスワードは半角英数字で入力してください' }),
   });
@@ -30,30 +31,22 @@ const validationLogin = (email: string, password: string) => {
 
 const { signIn } = useAuth();
 
-const onResponse = (data) => {
-  console.log(data.response.headers.get('access-token'))
-  console.log(data.response.headers.get('client'))
-  console.log(data.response.headers.get('uid'))
-}
-
 const handleSignIn = async (email: string, password: string) => {
   errorMessage.value = '';
   validationLogin(email, password);
   if (errorMessage.value) return;
 
-  const { error } = await useApi('api/v1/auth/sign_in', {
-    httpMethod: 'POST',
+  const { error, authHeaders } = await usePostAuth('api/v1/auth/sign_in', {
     params: { email: email, password: password },
-    onResponseFunc: onResponse
   });
 
   if (error.value) {
-    const errors = useApiError(error)
+    const errors = useApiError(error);
     errorMessage.value = errors?.[0] ?? 'ログイン失敗';
     return;
   }
 
-  // signIn({ email, password }, { external: true, callbackUrl: '/registration' });
+  signIn({ authHeaders }, { external: true, callbackUrl: '/registration' });
 };
 </script>
 <template>
