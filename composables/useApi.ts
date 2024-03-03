@@ -35,7 +35,7 @@ export const useApi = (path: string, { httpMethod = 'GET', params }: Options = {
       Object.assign(options, { method: 'GET', ...(params ? { query: { ...params } } : {}) });
   }
 
-  Object.assign(options, {timeout: 5000})
+  Object.assign(options, {timeout: 3000})
 
   return useFetch(path, options);
 };

@@ -37,7 +37,6 @@ const handleSignIn = async (email: string, password: string) => {
     httpMethod: 'POST',
     params: { email: email, password: password },
   });
-  console.log('error', error)
 
   if (error.value) {
     const errors = useApiError(error)
