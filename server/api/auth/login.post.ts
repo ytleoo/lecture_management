@@ -13,6 +13,7 @@ export default eventHandler(async (event) => {
   const options = {
     maxAge: expiresIn,
     httpOnly: true,
+    secure: true
   };
   setCookie(event, 'token', token, options);
 
