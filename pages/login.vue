@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useAuth, definePageMeta } from '#imports';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import z from 'zod';
-import { useApi } from '~/composables/useApi';
+import { usePostAuth } from '~/composables/usePostAuth';
 import { useApiError } from '~/composables/useApiError';
 import { useValidation } from '~/composables/useValidation';
 
@@ -16,12 +16,13 @@ definePageMeta({
 const errorMessage = ref<string | undefined>(undefined);
 const email = ref('');
 const password = ref('');
+const isDisabled = computed(() => !password.value || !email.value);
 
-const { validateForm } = useValidation();
+const { validateForm, validationRules } = useValidation();
 const validationLogin = (email: string, password: string) => {
   const formParser = z.object({
-    email: z.string().email({ message: 'メールアドレスが不正です' }),
-    password: z.string().min(6, { message: 'パスワードを6文字以上で入力してください' }),
+    email: validationRules.email,
+    password: validationRules.password,
   });
   errorMessage.value = validateForm(formParser, { email, password });
 };
@@ -33,17 +34,17 @@ const handleSignIn = async (email: string, password: string) => {
   validationLogin(email, password);
   if (errorMessage.value) return;
 
-  const { error } = await useApi('api/v1/auth/sign_in', {
-    httpMethod: 'POST',
+  const { error, authHeaders } = await usePostAuth('api/v1/auth/sign_in', {
     params: { email: email, password: password },
   });
 
   if (error.value) {
-    const errors = useApiError(error)
+    const errors = useApiError(error);
     errorMessage.value = errors?.[0] ?? 'ログイン失敗';
     return;
   }
-  signIn({ email, password }, { external: true, callbackUrl: '/registration' });
+
+  signIn({ authHeaders }, { external: true, callbackUrl: '/registration' });
 };
 </script>
 <template>
@@ -54,33 +55,21 @@ const handleSignIn = async (email: string, password: string) => {
         errorMessage
       }}</CommonFlashMessage>
       <form @submit.prevent="handleSignIn(email, password)" class="mt-4">
-        <div class="my-4 flex w-full flex-col items-center">
-          <label for="email" class="w-full px-4 text-left text-gray-500 md:w-5/6">email</label>
-          <input
-            required
-            v-model="email"
-            type="text"
-            placeholder="email"
-            id="email"
-            class="w-full border-b px-4 py-2 focus:border-b-2 focus:border-cyan-500 focus:outline-none md:w-5/6"
-          />
-        </div>
-        <div class="my-4 flex w-full flex-col items-center">
-          <label for="password" class="w-full px-4 text-left text-gray-500 md:w-5/6"
-            >パスワード</label
-          >
-          <input
-            required
-            v-model="password"
-            type="text"
-            placeholder="password"
-            id="password"
-            class="w-full border-b px-4 py-2 focus:border-b-2 focus:border-cyan-500 focus:outline-none md:w-5/6"
-          />
-        </div>
-        <button type="submit" class="button-white w-28 bg-cyan-500 text-white hover:bg-cyan-400">
-          ログイン
-        </button>
+        <CommonFormInput
+          type="text"
+          id="email"
+          placeholder="email@email"
+          label="メールアドレス"
+          v-model:modelValue="email"
+        />
+        <CommonFormInput
+          type="text"
+          id="password"
+          placeholder="password"
+          label="パスワード"
+          v-model:modelValue="password"
+        />
+        <CommonFormButton :is-disabled="isDisabled">ログイン</CommonFormButton>
       </form>
       <button class="mt-3 text-sm text-gray-400 underline" @click="navigateTo('/signup')">
         ユーザー新規登録

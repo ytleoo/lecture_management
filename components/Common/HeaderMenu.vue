@@ -42,6 +42,7 @@ const { signOut } = useAuth();
             </MenuItem>
             <MenuItem v-slot="{ active }">
               <button
+                @click="() => navigateTo('/password_reset')"
                 :class="[
                   active ? 'bg-cyan-500 text-white' : 'text-gray-900',
                   'group flex w-full items-center rounded-md px-2 py-2 text-sm',

@@ -1,31 +1,20 @@
 <script setup lang="ts">
-import { useAuth, definePageMeta } from '#imports';
+import { navigateTo } from '#app';
 import { ref, computed } from 'vue';
 import z from 'zod';
-import { usePostAuth } from '~/composables/usePostAuth';
+import { useApi } from '~/composables/useApi';
 import { useApiError } from '~/composables/useApiError';
 import { useValidation } from '~/composables/useValidation';
 
-definePageMeta({
-  auth: {
-    unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/registration',
-  },
-});
-
-const { signIn } = useAuth();
-
 const errorMessage = ref<string | undefined>(undefined);
-const email = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
-const isDisabled = computed(() => !password.value || !passwordConfirm.value || !email.value);
+const isDisabled = computed(() => !password.value || !passwordConfirm.value);
 
 const { validateForm, validationRules } = useValidation();
-const validationSignUp = (email: string, password: string, passwordConfirm: string) => {
+const validationPassword = (password: string, passwordConfirm: string) => {
   const formParser = z
     .object({
-      email: validationRules.email,
       password: validationRules.password,
       passwordConfirm: validationRules.passwordConfirm,
     })
@@ -38,45 +27,40 @@ const validationSignUp = (email: string, password: string, passwordConfirm: stri
         });
       }
     });
-  errorMessage.value = validateForm(formParser, { email, password, passwordConfirm });
+  errorMessage.value = validateForm(formParser, { password, passwordConfirm });
 };
 
-const signUp = async (email: string, password: string, passwordConfirm: string) => {
+const resetPassword = async (password: string, passwordConfirm: string) => {
   errorMessage.value = '';
-  validationSignUp(email, password, passwordConfirm);
+  validationPassword(password, passwordConfirm);
   if (errorMessage.value) return;
 
-  const { error, authHeaders } = await usePostAuth('api/v1/auth', {
-    params: { email: email, password: password },
+  const { error } = await useApi('api/v1/auth/password', {
+    httpMethod: 'PUT',
+    params: { password: password, password_confirmation: passwordConfirm },
   });
   if (error.value) {
     const errors = useApiError(error);
     errorMessage.value = errors?.full_messages?.[0] ?? '登録失敗';
     return;
   }
-  signIn({ authHeaders }, { external: true, callbackUrl: '/registration' });
+
+  await navigateTo('/');
 };
 </script>
 <template>
   <div class="page-wrapper">
     <div class="wrapper-white">
-      <h1 class="text-xl font-bold">ユーザー登録</h1>
+      <h1 class="text-xl font-bold">パスワード変更</h1>
       <CommonFlashMessage type="error" :isVisible="!!errorMessage">{{
         errorMessage
       }}</CommonFlashMessage>
-      <form @submit.prevent="signUp(email, password, passwordConfirm)" class="mt-4">
-        <CommonFormInput
-          type="text"
-          id="email"
-          placeholder="email@email"
-          label="メールアドレス"
-          v-model:modelValue="email"
-        />
+      <form @submit.prevent="resetPassword(password, passwordConfirm)" class="mt-4">
         <CommonFormInput
           type="text"
           id="password"
           placeholder="password"
-          label="パスワード"
+          label="新しいパスワード"
           v-model:modelValue="password"
         />
         <CommonFormInput
@@ -86,7 +70,7 @@ const signUp = async (email: string, password: string, passwordConfirm: string) 
           label="パスワード再入力"
           v-model:modelValue="passwordConfirm"
         />
-        <CommonFormButton :is-disabled="isDisabled">登録</CommonFormButton>
+        <CommonFormButton :is-disabled="isDisabled">変更</CommonFormButton>
       </form>
     </div>
   </div>

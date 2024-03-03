@@ -5,9 +5,9 @@ export const useApiError = (error: ErrorT) => {
       throw showError({
         statusCode: 500,
         statusMessage: 'Internal Server Error',
-        message: 'サーバーエラーです。時間をおいて再度アクセスしてください。'
+        message: 'サーバーエラーです。時間をおいて再度アクセスしてください。',
       });
     default:
-      return error.value.data.errors
+      return error.value.data.errors;
   }
-}
+};
