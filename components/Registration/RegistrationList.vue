@@ -30,18 +30,14 @@ const changeRegistration = async (registrationId: number) => {
 <template>
   <div class="w-full">
     <common-section-title>登録した講義</common-section-title>
-    <ul class="my-4 h-72 drop-shadow">
-      <li
-        v-for="registration in props.registrations"
-        :key="registration.id"
-        class="flex items-center justify-around border-b bg-white px-4 py-2"
-      >
-        {{ registration.name }}
+    <ul class="my-4 h-72 drop-shadow overflow-scroll">
+      <lecture v-for="registration in props.registrations"
+        :key="registration.id" :lecture="{ 'id': registration.lecture_id, 'name': registration.name }">
         <div class="flex">
           <button class="button-base m-0" @click="deleteRegistration(registration.id)">削除</button>
           <button class="button-base m-0" @click="changeRegistration(registration.id)">変更</button>
         </div>
-      </li>
+      </lecture>
     </ul>
   </div>
 </template>
