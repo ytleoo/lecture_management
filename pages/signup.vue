@@ -2,7 +2,7 @@
 import { useAuth, definePageMeta } from '#imports';
 import { ref } from 'vue';
 import z from 'zod';
-import { useApi } from '~/composables/useApi';
+import { usePostAuth } from '~/composables/usePostAuth';
 import { useApiError } from '~/composables/useApiError';
 import { useValidation } from '~/composables/useValidation';
 
@@ -51,16 +51,15 @@ const signUp = async (email: string, password: string, passwordConfirm: string) 
   validationSignUp(email, password, passwordConfirm);
   if (errorMessage.value) return;
 
-  const { error } = await useApi('api/v1/auth', {
-    httpMethod: 'POST',
+  const { error, authHeaders } = await usePostAuth('api/v1/auth', {
     params: { email: email, password: password },
   });
   if (error.value) {
-    const errors = useApiError(error)
+    const errors = useApiError(error);
     errorMessage.value = errors?.full_messages?.[0] ?? '登録失敗';
     return;
   }
-  signIn({ email, password }, { external: true, callbackUrl: '/registration' });
+  signIn({ authHeaders }, { external: true, callbackUrl: '/registration' });
 };
 </script>
 <template>

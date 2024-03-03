@@ -1,14 +1,22 @@
 import jwt from 'jsonwebtoken';
 
-export const SECRET = 'dummy';
-
 export default eventHandler(async (event) => {
-  const { email } = await readBody(event);
-  const expiresIn = 15;
-  const user = {
-    email,
-  };
+  const { authHeaders } = await readBody(event);
+  const { uid } = authHeaders;
+  const SECRET = 'secret';
+  const expiresIn = 60 * 60 * 24 * 1 * 1000;
 
+  const token = jwt.sign(authHeaders, SECRET, {
+    expiresIn,
+  });
+
+  const options = {
+    maxAge: expiresIn,
+    httpOnly: true,
+  }
+  setCookie(event, "token", token, options)
+
+  const user = { uid };
   const accessToken = jwt.sign(user, SECRET, {
     expiresIn,
   });
