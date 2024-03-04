@@ -10,7 +10,7 @@
 
 @layer components {
   .page-wrapper {
-    @apply flex w-full flex-col items-center gap-2 pt-20;
+    @apply flex w-full flex-col items-center gap-2 pt-16;
   }
   .button-base {
     @apply mt-4 rounded border px-4 py-2 text-gray-400;

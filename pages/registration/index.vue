@@ -7,22 +7,37 @@ useHead({
 });
 
 const { data: lectures } = await useApi('/api/v1/public/lectures');
-
+const { data: registrations, refresh: refreshRegistrations } =
+  await useApi('/api/v1/registrations');
 </script>
 <template>
   <div class="page-wrapper">
     <div class="flex flex-col justify-around gap-8 md:flex-row">
       <div>
-        <section class="h-52">
-          <common-section-title>前期</common-section-title>
+        <section class="h-84">
+          <h2 class="mb-4 text-xl font-bold">前期</h2>
+          <registration-list
+            :registrations="registrations.first_term"
+            @update-registration="refreshRegistrations()"
+          />
         </section>
-        <lecture-list :lectures="lectures.first_term" />
+        <lecture-list
+          :lectures="lectures.first_term"
+          @update-registration="refreshRegistrations()"
+        />
       </div>
       <div>
-        <section class="h-52">
-          <common-section-title>後期</common-section-title>
+        <section class="h-84">
+          <h2 class="mb-4 text-xl font-bold">後期</h2>
+          <registration-list
+            :registrations="registrations.second_term"
+            @update-registration="refreshRegistrations()"
+          />
         </section>
-        <lecture-list :lectures="lectures.second_term" />
+        <lecture-list
+          :lectures="lectures.second_term"
+          @update-registration="refreshRegistrations()"
+        />
       </div>
     </div>
   </div>

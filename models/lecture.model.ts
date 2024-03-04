@@ -1,4 +1,6 @@
 export type Lecture = {
+  id: number;
   name: string;
-  description: string;
+  term: 'first_term' | 'second_term';
+  description?: string;
 };

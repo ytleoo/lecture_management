@@ -1,5 +1,5 @@
 <template>
-  <h2 class="border-l-2 border-slate-500 pl-2 font-bold">
+  <h3 class="border-l-2 border-slate-500 pl-2 font-bold">
     <slot />
-  </h2>
+  </h3>
 </template>
