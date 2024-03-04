@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
 import { ChevronRightIcon } from '@heroicons/vue/20/solid';
-import { defineProps } from 'vue';
 import type { Lecture } from '~/models/lecture.model';
 import { useApi } from '~/composables/useApi';
 import { useApiError } from '~/composables/useApiError';

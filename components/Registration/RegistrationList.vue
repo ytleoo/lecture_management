@@ -1,6 +1,5 @@
 import type { mergeProps } from 'vue';
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
 import type { Registration } from '~registration.model';
 import { useApi } from '~/composables/useApi';
 import { XMarkIcon } from '@heroicons/vue/20/solid';
@@ -38,7 +37,10 @@ const changeRegistration = async (registrationId: number) => {
         :lecture="{ id: registration.lecture_id, name: registration.name }"
       >
         <div class="flex gap-1">
-          <button class="rounded border px-2 py-1 text-gray-400 m-0 text-sm" @click.stop="changeRegistration(registration.id)">
+          <button
+            class="m-0 rounded border px-2 py-1 text-sm text-gray-400"
+            @click.stop="changeRegistration(registration.id)"
+          >
             変更
           </button>
           <button class="m-0" @click.stop="deleteRegistration(registration.id)">
