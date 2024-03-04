@@ -28,6 +28,7 @@ if(error.value) {
           <h2 class="mb-4 text-xl font-bold">前期</h2>
           <registration-list
             :registrations="registrations.first_term"
+            :selectable-lectures="lectures.first_term"
             @update-registration="refreshRegistrations()"
           />
         </section>
@@ -41,6 +42,7 @@ if(error.value) {
           <h2 class="mb-4 text-xl font-bold">後期</h2>
           <registration-list
             :registrations="registrations.second_term"
+            :selectable-lectures="lectures.second_term"
             @update-registration="refreshRegistrations()"
           />
         </section>

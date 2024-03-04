@@ -2,12 +2,14 @@ import type { mergeProps } from 'vue';
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Registration } from '~registration.model';
+import type { Lecture } from '~/models/lecture.model';
 import { useApi } from '~/composables/useApi';
 import { XMarkIcon } from '@heroicons/vue/20/solid';
 import { useApiError } from '~/composables/useApiError';
 
 interface Props {
   registrations: Registration[];
+  selectableLectures: Lecture[];
 }
 const props = defineProps<Props>();
 
@@ -29,11 +31,10 @@ const deleteRegistration = async (registrationId: number) => {
   }
 };
 
-const changeRegistration = async (registrationId: number) => {
-  // 変更
-  console.log(registrationId);
-};
+const selectedRegistration = ref<Registration | null>(null);
+const selectRegistration = (registration: Registration) => selectedRegistration.value = registration;
 
+const clearSelectedRegistration = () => selectedRegistration.value = null
 const clearError = () => (errorMessage.value = null);
 </script>
 <template>
@@ -49,10 +50,16 @@ const clearError = () => (errorMessage.value = null);
         <div class="flex gap-1">
           <button
             class="m-0 rounded border px-2 py-1 text-sm text-gray-400"
-            @click.stop="changeRegistration(registration.id)"
+            @click.stop="selectRegistration(registration)"
           >
             変更
           </button>
+          <registration-modal 
+            :selected-registration="selectedRegistration"
+            :selectable-lectures="props.selectableLectures" 
+            @close-modal="clearSelectedRegistration()"
+            @update-registration="emits('updateRegistration');"
+           />
           <button class="m-0" @click.stop="deleteRegistration(registration.id)">
             <XMarkIcon class="h-6 w-6 text-gray-400" />
           </button>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { TransitionRoot, TransitionChild, Dialog, DialogPanel } from '@headlessui/vue';
 
 interface Props {
@@ -11,15 +10,9 @@ const emits = defineEmits<{
   closeModal: [];
 }>();
 
-const isOpen = ref(false);
-
 const closeModal = () => {
-  isOpen.value = false;
   emits('closeModal');
 };
-// const openModal = () => {
-//   isOpen.value = true;
-// };
 </script>
 <template>
   <TransitionRoot appear :show="!!props.message" as="template">
