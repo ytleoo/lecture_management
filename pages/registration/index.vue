@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useHead } from '#imports';
+import { useHead, showError } from '#imports';
 import { useApi } from '~/composables/useApi';
 
 useHead({
