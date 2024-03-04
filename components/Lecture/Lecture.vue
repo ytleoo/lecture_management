@@ -3,7 +3,6 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
 import { ChevronRightIcon } from '@heroicons/vue/20/solid';
 import type { Lecture } from '~/models/lecture.model';
 import { useApi } from '~/composables/useApi';
-import { useApiError } from '~/composables/useApiError';
 
 interface Props {
   lecture: Lecture;
@@ -13,7 +12,7 @@ const props = defineProps<Props>();
 const fetchLecture = async (lecture: Lecture) => {
   if (lecture.description) return;
   const { data: lectureData } = await useApi(`/api/v1/public/lectures/${lecture.id}`);
-  lecture.description = lectureData.value.description;
+  lecture.description = lectureData.value?.description;
 };
 </script>
 <template>
