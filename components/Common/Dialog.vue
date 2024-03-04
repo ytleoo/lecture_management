@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
+import { TransitionRoot, TransitionChild, Dialog, DialogPanel } from '@headlessui/vue';
 
 interface Props {
   message: string | null;
@@ -17,13 +17,13 @@ const closeModal = () => {
   isOpen.value = false;
   emits('closeModal');
 };
-const openModal = () => {
-  isOpen.value = true;
-};
+// const openModal = () => {
+//   isOpen.value = true;
+// };
 </script>
 <template>
   <TransitionRoot appear :show="!!props.message" as="template">
-    <Dialog as="div" @close="closeModal" class="relative z-10">
+    <Dialog as="div" @close="closeModal" class="relative z-20">
       <TransitionChild
         as="template"
         enter="duration-300 ease-out"
@@ -50,12 +50,6 @@ const openModal = () => {
             <DialogPanel
               class="w-full max-w-md transform overflow-hidden rounded-xl bg-white p-6 align-middle shadow-xl transition-all"
             >
-              <!-- <DialogTitle
-                as="h3"
-                class="text-lg font-medium leading-6 text-gray-900"
-              >
-                Payment successful
-              </DialogTitle> -->
               <div class="mt-2">
                 <p class="text-base text-gray-500">
                   {{ props.message }}
