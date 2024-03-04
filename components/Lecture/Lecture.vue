@@ -11,9 +11,7 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-
 const fetchLecture = async (lecture: Lecture) => {
-  console.log(lecture)
   if (lecture.description) return;
   const { data: lectureData } = await useApi(`/api/v1/public/lectures/${lecture.id}`);
   lecture.description = lectureData.value.description;
@@ -23,7 +21,7 @@ const fetchLecture = async (lecture: Lecture) => {
   <Disclosure
     as="li"
     v-slot="{ open }"
-    class="w-full cursor-pointer overflow-hidden border-b bg-white px-4 py-2"
+    class="w-full cursor-pointer overflow-hidden border-b bg-white px-3 py-2"
   >
     <DisclosureButton
       class="flex w-full items-center justify-between"

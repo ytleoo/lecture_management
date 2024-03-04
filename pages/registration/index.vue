@@ -14,8 +14,8 @@ const { data: registrations, refresh: refreshRegistrations } =
   <div class="page-wrapper">
     <div class="flex flex-col justify-around gap-8 md:flex-row">
       <div>
-        <section class="h-80">
-          <common-section-title>前期</common-section-title>
+        <section class="h-84">
+          <h2 class="mb-4 text-xl font-bold">前期</h2>
           <registration-list
             :registrations="registrations.first_term"
             @update-registration="refreshRegistrations()"
@@ -27,8 +27,8 @@ const { data: registrations, refresh: refreshRegistrations } =
         />
       </div>
       <div>
-        <section class="h-80">
-          <common-section-title>後期</common-section-title>
+        <section class="h-84">
+          <h2 class="mb-4 text-xl font-bold">後期</h2>
           <registration-list
             :registrations="registrations.second_term"
             @update-registration="refreshRegistrations()"

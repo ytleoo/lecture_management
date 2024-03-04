@@ -28,10 +28,14 @@ const addLecture = async (lectureId: number) => {
 <template>
   <div class="w-full">
     <common-section-title>登録可能な講義</common-section-title>
-    <ul class="my-4 h-72 overflow-scroll drop-shadow">
-      <lecture v-for="lecture in props.lectures"
-        :key="lecture.id" :lecture="lecture">
-        <button class="button-base m-0 bg-cyan-500 hover:bg-cyan-400 text-white" @click="addLecture(lecture.id)">登録</button>
+    <ul class="my-4 h-72 w-60 overflow-scroll drop-shadow">
+      <lecture v-for="lecture in props.lectures" :key="lecture.id" :lecture="lecture">
+        <button
+          class="button-base m-0 bg-cyan-500 text-white hover:bg-cyan-400"
+          @click.stop="addLecture(lecture.id)"
+        >
+          登録
+        </button>
       </lecture>
     </ul>
   </div>
