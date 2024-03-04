@@ -4,7 +4,6 @@ import { defineProps, defineEmits } from 'vue';
 import type { Registration } from '~registration.model';
 import { useApi } from '~/composables/useApi';
 import { XMarkIcon } from '@heroicons/vue/20/solid';
-import { Cog8ToothIcon } from "@heroicons/vue/20/solid";
 
 interface Props {
   registrations: Registration[];
