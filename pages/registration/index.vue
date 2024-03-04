@@ -7,12 +7,12 @@ useHead({
 });
 
 const { data: lectures } = await useApi('/api/v1/public/lectures');
-const { 
+const {
   data: registrations,
   refresh: refreshRegistrations,
-  error 
+  error,
 } = await useApi('/api/v1/registrations');
-if(error.value) {
+if (error.value) {
   throw showError({
     statusCode: error.value.statusCode,
     statusMessage: error.value.statusMessage,

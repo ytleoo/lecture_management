@@ -32,9 +32,10 @@ const deleteRegistration = async (registrationId: number) => {
 };
 
 const selectedRegistration = ref<Registration | null>(null);
-const selectRegistration = (registration: Registration) => selectedRegistration.value = registration;
+const selectRegistration = (registration: Registration) =>
+  (selectedRegistration.value = registration);
 
-const clearSelectedRegistration = () => selectedRegistration.value = null
+const clearSelectedRegistration = () => (selectedRegistration.value = null);
 const clearError = () => (errorMessage.value = null);
 </script>
 <template>
@@ -54,12 +55,12 @@ const clearError = () => (errorMessage.value = null);
           >
             変更
           </button>
-          <registration-modal 
+          <registration-modal
             :selected-registration="selectedRegistration"
-            :selectable-lectures="props.selectableLectures" 
+            :selectable-lectures="props.selectableLectures"
             @close-modal="clearSelectedRegistration()"
-            @update-registration="emits('updateRegistration');"
-           />
+            @update-registration="emits('updateRegistration')"
+          />
           <button class="m-0" @click.stop="deleteRegistration(registration.id)">
             <XMarkIcon class="h-6 w-6 text-gray-400" />
           </button>

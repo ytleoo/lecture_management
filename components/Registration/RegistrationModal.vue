@@ -23,10 +23,9 @@ const closeModal = () => {
 
 const errorMessage = ref<string | null>(null);
 const changeRegistration = async (lectureId: number) => {
-  console.log(props.selectedRegistration)
   const { error } = await useApi(`/api/v1/registrations/${props.selectedRegistration.id}`, {
     httpMethod: 'PATCH',
-    params: {"lecture_id": lectureId}
+    params: { lecture_id: lectureId },
   });
   if (!error.value) {
     closeModal();
@@ -66,18 +65,14 @@ const clearError = () => (errorMessage.value = null);
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-
             <DialogPanel
               class="w-full max-w-md transform overflow-hidden rounded-xl bg-white p-6 align-middle shadow-xl transition-all"
             >
-              <DialogTitle
-                as="h3"
-                class="text-lg font-medium leading-6 text-gray-900 mb-4"
-              >
-              {{ props.selectedRegistration?.name }}を変更
+              <DialogTitle as="h3" class="mb-4 text-lg font-medium leading-6 text-gray-900">
+                {{ props.selectedRegistration?.name }}を変更
               </DialogTitle>
               <div class="mt-2 flex flex-col items-center">
-                <p class="text-gray-400 mb-3">リストから選択してください</p>
+                <p class="mb-3 text-gray-400">リストから選択してください</p>
                 <ul class="h-72 w-11/12 overflow-scroll">
                   <lecture
                     v-for="lecture in props.selectableLectures"
