@@ -21,6 +21,7 @@ URL: https://lecture-management.vercel.app/
 ## 環境
 - Nuxt3 / Vue.js(CompositionAPI) / Typescript
 - TailwindCSS / headlessUI
+- eslint / prettier
 - Vercel
   
 ## Setup
